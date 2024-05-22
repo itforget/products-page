@@ -57,13 +57,14 @@ export default function Produtos() {
               </div>
             </div>
           </div>
-          <div>
+          <div className="flex flex-row gap-4">
             <a
               href="/anuncios"
               className="bg-blue-500 text-white px-8 py-3 rounded-2xl"
             >
               Anunciar
             </a>
+            <a href="/cadastro" className="bg-green-500 text-white px-8 py-3 rounded-2xl">Cadastrar-se</a>
           </div>
         </nav>
       </header>
@@ -80,7 +81,7 @@ export default function Produtos() {
           </select>
         </div>
         {
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 ">
             {isLoading ? (
               <p className="font-bold text-2xl">Carregando Produtos</p>
             ) : filteredProducts?.length === 0 ? (
@@ -89,7 +90,7 @@ export default function Produtos() {
               filteredProducts?.map((products) => {
                 return (
                   <div
-                    className="border rounded-xl border-zinc-200"
+                    className="border rounded-xl border-zinc-300 shadow-2xl"
                     key={products.id}
                   >
                     <div className="flex flex-row">
