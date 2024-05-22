@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { fetchProducts } from "../utils/getProducts";
 import { useState } from "react";
-import { Heart, MapPin, Search } from "lucide-react";
+import { Heart, LoaderCircle, MapPin, Search } from "lucide-react";
 
 export default function Produtos() {
   const { data, isLoading } = useQuery({
@@ -27,7 +27,7 @@ export default function Produtos() {
       <header className=" mx-28 py-5">
         <nav className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center gap-4">
-            <Image src="/logo1.svg" alt="Logo" width={100} height={100} />
+            <Image src="/logo1.svg" alt="Logo" width={100} height={100} priority />
             <div className="relative">
               <input
                 type="text"
@@ -39,7 +39,7 @@ export default function Produtos() {
               <Search className="absolute left-2 top-1/2 transform -translate-y-1/2" />
             </div>
             <div className="flex flex-row items-center ">
-              <label for="cidades"></label>
+              <label htmlFor="cidades"></label>
               <div className="relative">
                 <select
                   name=""
@@ -83,15 +83,17 @@ export default function Produtos() {
         {
           <div className="flex flex-col gap-4 ">
             {isLoading ? (
-              <p className="font-bold text-2xl">Carregando Produtos</p>
+              <div className="flex justify-center items-center h-screen w-screen">
+                <LoaderCircle className=" animate-spin"/>
+              </div>
             ) : filteredProducts?.length === 0 ? (
-              <p className="font-bold text-2xl">Nenhum produto encontrado</p>
+              <p className="font-bold text-2xl flex justify-center items-center">Nenhum produto encontrado</p>
             ) : (
-              filteredProducts?.map((products) => {
+              filteredProducts?.map((products, index) => {
                 return (
                   <div
                     className="border rounded-xl border-zinc-300 shadow-2xl"
-                    key={products.id}
+                    key={index}
                   >
                     <div className="flex flex-row">
                       <img
@@ -100,6 +102,7 @@ export default function Produtos() {
                         width={280}
                         height={280}
                         className="mb-4 rounded-l-xl"
+                        
                       />
                       <div className="flex flex-col justify-between">
                         <div className="flex flex-row mt-5 gap-60 ml-2">
@@ -137,7 +140,7 @@ export default function Produtos() {
 
       <footer className="bg-gray-800 text-white py-4">
         <div className="flex items-center justify-center">
-          <p>&copy; 2024 TradeZap. Todos os direitos reservados.</p>
+          <p>© 2024 TradeZap. Todos os direitos reservados.</p>
         </div>
       </footer>
     </div>
