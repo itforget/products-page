@@ -151,7 +151,7 @@ export default function Produtos() {
         }
       </main>
 
-      <footer className="bg-gray-800 text-white py-4 mt-[154px]">
+      <footer className="bg-gray-800 text-white py-4 mt-[468px] max-xl:mt-[280px] ">
         <div className="flex items-center justify-center">
           <p>© 2024 TradeZap. Todos os direitos reservados.</p>
         </div>

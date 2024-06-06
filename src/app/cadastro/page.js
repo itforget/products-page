@@ -6,22 +6,18 @@ import { useEffect, useState } from "react";
 import { useRegisterMutate } from "../utils/mutateRegister";
 
 export default function Registro() {
-  const [name, setName] = useState("");
+  const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
-  const [date, setDate] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [senha, setSenha] = useState("");
 
   const { mutate, isSuccess } = useRegisterMutate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = {
-      name,
+      nome,
       email,
-      date,
-      password,
-      confirmPassword,
+      senha,
     };
     mutate(data);
   };
@@ -75,10 +71,10 @@ export default function Registro() {
         <h2 className="text-2xl font-bold">Registro</h2>
         <input
           type="text"
-          placeholder="Name"
-          name="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          placeholder="Nome"
+          name="nome"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
           className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
         />
         <input
@@ -90,27 +86,11 @@ export default function Registro() {
           className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
         />
         <input
-          type="date"
-          placeholder="Date of Birth"
-          name="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
-        />
-        <input
           type="password"
-          placeholder="Password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
-        />
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          name="confirmPassword"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          placeholder="Senha"
+          name="Senha"
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
           className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
         />
         <button
