@@ -5,12 +5,15 @@ import Image from "next/image";
 import { fetchProducts } from "../utils/getProducts";
 import { useState } from "react";
 import { Heart, LoaderCircle, MapPin, Search } from "lucide-react";
+import Cookies from "js-cookie";
 
 export default function Produtos() {
   const { data, isLoading } = useQuery({
     queryKey: ["products"],
     queryFn: fetchProducts,
   });
+
+
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -23,6 +26,10 @@ export default function Produtos() {
   const filteredProducts = data?.filter((product) =>
     product.nome.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  let usuarioLogado
+  const cookies = Cookies.get("token") 
+
   return (
     <div>
       <header className=" mx-28 py-5">
@@ -76,6 +83,12 @@ export default function Produtos() {
               className="bg-green-500 text-white px-8 py-3 rounded-2xl"
             >
               Cadastrar-se
+            </a>
+            <a
+              href="/login"
+              className="bg-red-500 text-white px-8 py-3 rounded-2xl"
+            >
+              Login
             </a>
           </div>
         </nav>
