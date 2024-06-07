@@ -2,12 +2,23 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { fetchProducts } from "../utils/getProducts";
-import { useState } from "react";
+import { fetchProducts } from "../services/getProducts";
+import {  useEffect, useState } from "react";
 import { Heart, LoaderCircle, MapPin, Search } from "lucide-react";
-import Cookies from "js-cookie";
+import { authService } from "../services/auth/authService";
+
+
 
 export default function Produtos() {
+
+  useEffect(() => {
+    const getSession = async () => {
+      const session = await authService.getSession();
+      console.log(session);
+    };
+    getSession;
+  }, []);
+
   const { data, isLoading } = useQuery({
     queryKey: ["products"],
     queryFn: fetchProducts,
@@ -26,9 +37,6 @@ export default function Produtos() {
   const filteredProducts = data?.filter((product) =>
     product.nome.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  let usuarioLogado
-  const cookies = Cookies.get("token") 
 
   return (
     <div>

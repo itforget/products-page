@@ -1,33 +1,28 @@
 "use client";
 import { MapPin } from "lucide-react";
 import Image from "next/image";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useRegisterMutate } from "../utils/mutateRegister";
+import { useRouter } from 'next/navigation'
+import { useState } from "react";
 
 export default function Registro() {
-  const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+  const router = useRouter();
+  const [values, setValues] = useState({
+    nome: 'User',
+    email: 'user@gmail.com',
+    senha: '123456',
+  });
 
-  const { mutate, isSuccess } = useRegisterMutate();
+  function handleChange(event) {
+    const fieldValue = event.target.value;
+    const fieldName = event.target.name;
+    setValues((currentValues) => {
+      return {
+        ...currentValues,
+        [fieldName]: fieldValue,
+      };
+    })
+  }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = {
-      nome,
-      email,
-      senha,
-    };
-    mutate(data);
-  };
-
-  useEffect(() => {
-    if (isSuccess) {
-      alert("Cadastro realizado com sucesso!");
-      window.location.href = "/produtos";
-    }
-  }, [isSuccess]);
   return (
     <div>
       <header className=" mx-28 py-5">
@@ -64,33 +59,24 @@ export default function Registro() {
         </nav>
       </header>
      <main className="flex justify-center items-center">
-     <form
-        className="flex flex-col gap-4 justify-center items-center mt-36 p-20 border border-gray-300 rounded-md"
-        onSubmit={handleSubmit}
-      >
+     <form className="flex flex-col gap-4 justify-center items-center mt-36 p-20 border border-gray-300 rounded-md" onSubmit={(event) => {
+        event.preventDefault();
+        router.push('/produtos');
+      }}>
         <h2 className="text-2xl font-bold">Registro</h2>
         <input
-          type="text"
-          placeholder="Nome"
-          name="nome"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
+          placeholder="Nome do usuário" name="nome"
+          value={values.nome} onChange={handleChange}
           className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
         />
         <input
-          type="email"
-          placeholder="Email"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email" name="email" type="email"
+          value={values.email} onChange={handleChange}
           className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
         />
-        <input
-          type="password"
-          placeholder="Senha"
-          name="Senha"
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
+       <input
+          placeholder="Senha" name="senha" type="password"
+          value={values.senha} onChange={handleChange}
           className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
         />
         <button
