@@ -79,7 +79,7 @@ export default function Login() {
               });
           }}
         >
-          <h2 className='text-2xl font-bold'>Registro</h2>
+          <h2 className='text-2xl font-bold'>Login</h2>
           <input
             type='email'
             placeholder='Email'

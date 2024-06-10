@@ -2,29 +2,27 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { fetchProducts } from "../services/getProducts";
-import {  useEffect, useState } from "react";
-import { Heart, LoaderCircle, MapPin, Search } from "lucide-react";
-import { authService } from "../services/auth/authService";
-
-
+import { fetchProducts } from "../services/reactQuery/getProducts";
+import { useState } from "react";
+import { Heart, LoaderCircle, MapPin, Search, UserCircle } from "lucide-react";
+import { fetchAuth } from "../services/reactQuery/auth";
+import Dropdown from "./components/dropdown";
+import { tokenService } from "../services/auth/tokenService";
 
 export default function Produtos() {
+  const {
+    data: userData,
+    isLoading: userIsLoading,
+    isSuccess: userIsSuccess,
+  } = useQuery({
+    queryKey: ["user"],
+    queryFn: fetchAuth,
+  });
 
-  useEffect(() => {
-    const getSession = async () => {
-      const session = await authService.getSession();
-      console.log(session);
-    };
-    getSession;
-  }, []);
-
-  const { data, isLoading } = useQuery({
+  const { data: productsData, isLoading: productsIsLoading } = useQuery({
     queryKey: ["products"],
     queryFn: fetchProducts,
   });
-
-
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -34,7 +32,7 @@ export default function Produtos() {
     setIsFavorited(!isFavorited);
   };
 
-  const filteredProducts = data?.filter((product) =>
+  const filteredProducts = productsData?.filter((product) =>
     product.nome.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -79,25 +77,31 @@ export default function Produtos() {
               </div>
             </div>
           </div>
-          <div className="flex flex-row gap-4 max-xl:my-4 max-xl:justify-center max-xl:items-center">
+          <div className="flex flex-row items-center gap-4 max-xl:my-4 max-xl:justify-center max-xl:items-center">
             <a
               href="/anuncios"
               className="bg-blue-500 text-white px-8 py-3 rounded-2xl"
             >
               Anunciar
             </a>
-            <a
-              href="/cadastro"
-              className="bg-green-500 text-white px-8 py-3 rounded-2xl"
-            >
-              Cadastrar-se
-            </a>
-            <a
-              href="/login"
-              className="bg-red-500 text-white px-8 py-3 rounded-2xl"
-            >
-              Login
-            </a>
+            {userIsSuccess ? (
+              <Dropdown label={userData.nomeUsuario} props={tokenService.delete} option={"Sair"} />
+            ) : (
+              <div className="flex flex-row gap-3 items-center">
+                <a
+                  href="/cadastro"
+                  className="bg-green-500 text-white px-8 py-3 rounded-2xl"
+                >
+                  Cadastrar-se
+                </a>
+                <a
+                  href="/login"
+                  className="bg-red-500 text-white px-8 py-3 rounded-2xl"
+                >
+                  Login
+                </a>
+              </div>
+            )}
           </div>
         </nav>
       </header>
@@ -115,7 +119,7 @@ export default function Produtos() {
         </div>
         {
           <div className="flex flex-col gap-4 ">
-            {isLoading ? (
+            {productsIsLoading ? (
               <div className="flex justify-center items-center h-screen w-screen">
                 <LoaderCircle className=" animate-spin" />
               </div>
