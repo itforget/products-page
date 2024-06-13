@@ -31,7 +31,7 @@ export default function Produtos() {
   const handleClick = () => {
     setIsFavorited(!isFavorited);
   };
-
+  
   const filteredProducts = productsData?.filter((product) =>
     product.nome.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -137,7 +137,7 @@ export default function Produtos() {
                     <div className="flex flex-row">
                       <img
                         src={products.imagens[0].url}
-                        alt={products.nome}
+                        alt={products.name}
                         width={280}
                         height={280}
                         className="mb-4 rounded-l-xl"
@@ -145,13 +145,13 @@ export default function Produtos() {
                       <div className="flex flex-col justify-between">
                         <div className="flex flex-row mt-5 gap-60 ml-2 max-xl:gap-24 max-xl:ml-0">
                           <h2 className="text-md text-zinc-600">
-                            {products.nome}
+                            {products.name}
                           </h2>
                           <p className="text-xl font-bold text-zinc-600">
                             {new Intl.NumberFormat("pt-BR", {
                               style: "currency",
                               currency: "BRL",
-                            }).format(products.valor)}
+                            }).format(products.value)}
                           </p>
                         </div>
                         <div className="flex flex-row mt-5 gap-60 mb-2 ml-2 max-xl:gap-24 max-xl:ml-0">

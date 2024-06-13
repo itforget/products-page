@@ -9,7 +9,7 @@ export default function Login() {
   const router = useRouter();
   const [values, setValues] = useState({
     email: '',
-    senha: '',
+    password: '',
   });
 
   function handleChange(event) {
@@ -68,7 +68,7 @@ export default function Login() {
             authService
               .login({
                 email: values.email,
-                senha: values.senha,
+                password: values.password,
               })
               .then(() => {
                 router.push('/produtos');
@@ -90,9 +90,9 @@ export default function Login() {
           />
           <input
             placeholder='Senha'
-            name='senha'
+            name='password'
             type='password'
-            value={values.senha}
+            value={values.password}
             onChange={handleChange}
             className='px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full'
           />

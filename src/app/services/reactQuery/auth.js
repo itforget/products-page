@@ -8,7 +8,7 @@ export const fetchAuth = async () => {
   }
   try {
     const { data } = await axios.get(
-      "https://3000-itforget-serverzap-boqvgsz8aw6.ws-us114.gitpod.io/autenticacao/session",
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
