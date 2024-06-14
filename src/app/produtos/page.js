@@ -17,24 +17,15 @@ export default function Produtos() {
   } = useQuery({
     queryKey: ["user"],
     queryFn: fetchAuth,
+    persister: false,
   });
+
 
   const { data: productsData, isLoading: productsIsLoading } = useQuery({
     queryKey: ["products"],
     queryFn: fetchProducts,
+    persister: false,
   });
-
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const [isFavorited, setIsFavorited] = useState(false);
-
-  const handleClick = () => {
-    setIsFavorited(!isFavorited);
-  };
-  
-  const filteredProducts = productsData?.filter((product) =>
-    product.nome.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
     <div>
@@ -53,7 +44,7 @@ export default function Produtos() {
                 type="text"
                 placeholder="Pesquisar"
                 className="w-96 p-2 pl-8 rounded-lg border border-zinc-300"
-                value={searchTerm}
+                value={''}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
               <Search className="absolute left-2 top-1/2 transform -translate-y-1/2" />
@@ -85,7 +76,7 @@ export default function Produtos() {
               Anunciar
             </a>
             {userIsSuccess ? (
-              <Dropdown label={userData.nomeUsuario} props={tokenService.delete} option={"Sair"} />
+              <Dropdown label={userData.name} props={tokenService.delete} option={"Sair"} />
             ) : (
               <div className="flex flex-row gap-3 items-center">
                 <a
@@ -117,63 +108,59 @@ export default function Produtos() {
             <option value="">Livros</option>
           </select>
         </div>
-        {
-          <div className="flex flex-col gap-4 ">
-            {productsIsLoading ? (
-              <div className="flex justify-center items-center h-screen w-screen">
-                <LoaderCircle className=" animate-spin" />
-              </div>
-            ) : filteredProducts?.length === 0 ? (
-              <p className="font-bold text-2xl flex justify-center items-center">
-                Nenhum produto encontrado
-              </p>
-            ) : (
-              filteredProducts?.map((products, index) => {
-                return (
-                  <div
-                    className="border rounded-xl border-zinc-300 shadow-2xl"
-                    key={index}
-                  >
-                    <div className="flex flex-row">
-                      <img
-                        src={products.imagens[0].url}
-                        alt={products.name}
-                        width={280}
-                        height={280}
-                        className="mb-4 rounded-l-xl"
-                      />
-                      <div className="flex flex-col justify-between">
-                        <div className="flex flex-row mt-5 gap-60 ml-2 max-xl:gap-24 max-xl:ml-0">
-                          <h2 className="text-md text-zinc-600">
-                            {products.name}
-                          </h2>
-                          <p className="text-xl font-bold text-zinc-600">
-                            {new Intl.NumberFormat("pt-BR", {
-                              style: "currency",
-                              currency: "BRL",
-                            }).format(products.value)}
-                          </p>
+        <div className="flex flex-col gap-4">
+          {productsIsLoading ? (
+            <div className="flex justify-center items-center h-screen w-screen">
+              <LoaderCircle className=" animate-spin" />
+            </div>
+          ) : productsData?.length === 0 ? (
+            <p className="font-bold text-2xl flex justify-center items-center">
+              Nenhum produto encontrado
+            </p>
+          ) : (
+            productsData?.map((products, index) => {
+              return (
+
+                <div className="border rounded-xl border-zinc-300 shadow-2xl" key={index}>
+                  <div className="flex flex-row">
+                    <img
+                      src={products.imgUrl}
+                      alt='imagem'
+                      width={280}
+                      height={280}
+                      className="mb-4 rounded-l-xl"
+                    />
+                    <div className="flex flex-col justify-between">
+                      <div className="flex flex-row mt-5 gap-60 ml-2 max-xl:gap-24 max-xl:ml-0">
+                        <h2 className="text-md text-zinc-600">
+                          {products.name}
+                        </h2>
+                        <p className="text-xl font-bold text-zinc-600">
+                          {new Intl.NumberFormat("pt-BR", {
+                            style: "currency",
+                            currency: "BRL",
+                          }).format(products.price)}
+                        </p>
+                      </div>
+                      <div className="flex flex-row mt-5 gap-60 mb-2 ml-2 max-xl:gap-24 max-xl:ml-0">
+                        <div className="flex flex-row gap-1 items-center">
+                          <MapPin className="text-zinc-400" size={20} />
+                          <p>{products.location}</p>
                         </div>
-                        <div className="flex flex-row mt-5 gap-60 mb-2 ml-2 max-xl:gap-24 max-xl:ml-0">
-                          <div className="flex flex-row gap-1 items-center">
-                            <MapPin className="text-zinc-400" size={20} />
-                            <p>Ceilandia, Brasilia - DF</p>
-                          </div>
-                          <button onClick={handleClick}>
-                            <Heart
-                              className="text-red-500"
-                              fill={isFavorited ? "#ef4444" : "none"}
-                            />
-                          </button>
-                        </div>
+                        <button onClick={() => handleFavorite(products.id)}>
+                          <Heart
+                            className="text-red-500"
+                            fill={products.isFavorite ? "#ef4444" : "none"}
+                          />
+                        </button>
                       </div>
                     </div>
                   </div>
-                );
-              })
-            )}
-          </div>
-        }
+                </div>
+              )
+            })
+          )}
+        </div>
       </main>
 
       <footer className="bg-gray-800 text-white py-4 mt-[468px] max-xl:mt-[280px] ">

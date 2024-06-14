@@ -7,8 +7,7 @@ export const fetchAuth = async () => {
     throw new Error("Token não encontrado");
   }
   try {
-    const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products`,
+    const { data } = await axios.get('https://silver-sniffle-gv79r6gxv7w29p4j-5000.app.github.dev/api/auth/session',
       {
         headers: {
           Authorization: `Bearer ${token}`,

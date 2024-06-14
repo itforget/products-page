@@ -3,7 +3,7 @@ import { tokenService } from './tokenService';
 
 export const authService = {
   async login({ email, password }) {
-    return HttpClient(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`, {
+    return HttpClient("https://silver-sniffle-gv79r6gxv7w29p4j-5000.app.github.dev/api/auth/login", {
       method: 'POST',
       body: { email, password }
     })
